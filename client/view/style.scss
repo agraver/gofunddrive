@@ -1,0 +1,283 @@
+@import 'include-media';
+
+$icon-size: 32px;
+$desc-margin-left: 20px;
+
+$juicy-green: #76BF0D;
+$juicy-red: #F5193D;
+
+.navbar {
+  background-color: white;
+  box-shadow: 0 0px 4px 0px #d6d6d6;
+}
+
+%heading {
+  font-weight: 300;
+}
+
+%desc-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: $icon-size + 5;
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+%desc-content {
+  margin-left: $icon-size + 5;
+  margin-top: 3px;
+  line-height: 19px;
+}
+
+.get-started {
+  font-size: 22px;
+}
+
+%jumbotron {
+  border-top: 2px solid #dddddd;
+  border-bottom: 2px solid #dddddd;
+}
+
+.bgGreen {
+  background-color: $juicy-green;
+}
+
+.bgRed {
+  background-color: $juicy-red;
+}
+
+@include media("<=phone") {
+
+  .heading {
+    font-size: 18px;
+  }
+
+  #desc {
+
+    padding-left: 40px;
+    padding-right: 40px;
+
+    .desc-title {
+      font-size: 15px;
+    }
+  }
+
+  .desktop {
+    display: none;
+  }
+
+
+
+}
+
+@include media(">phone", "<=tablet") {
+
+
+  #desc {
+    margin-left: $desc-margin-left;
+    margin-bottom: 30px;
+
+    .desc-title {
+      @extend %desc-title;
+      margin-left: $icon-size + 10;
+      font-size: 15px;
+      color: black;
+    }
+
+    .desc-content {
+      @extend %desc-content;
+      margin-left: $icon-size + 10;
+    }
+
+    .mega-octicon {
+      margin-top: 6px;
+    }
+  }
+
+
+  .desktop {
+    display: none;
+  }
+
+
+  .heading {
+    @extend %heading;
+    font-size: 18px;
+    margin: 0 0 15px;
+  }
+
+  .jumbotron {
+    @extend %jumbotron;
+
+    .mobile {
+      display: block;
+      margin: 10px auto 0px;
+    }
+  }
+
+  .ynSecDiv {
+    padding-left: 0px;
+    padding-right: 0px;
+
+    .yesno {
+      color:white;
+      padding-left: 30px;
+      line-height: 36px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .mega-octicon {
+      font-size: 24px;
+      margin-right: 5px;
+    }
+
+    .ynFont {
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .items {
+      padding-left: 30px;
+      font-size: 14px;
+
+      .titStyl {
+        font-weight: bold;
+        margin-bottom: 0px;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      .contStyl {
+        margin-top: 3px;
+        margin-bottom: 0px;
+      }
+    }
+  }
+
+  #noThan {
+    .mega-octicon {
+      font-size: 24px;
+      margin-right: 9px;
+    }
+  }
+
+
+}
+
+@include media(">tablet") {
+  h3 {
+    @extend .desc-title;
+    font-size: 18px;
+    //color: green;
+  }
+
+  #desc {
+    margin-bottom: 30px;
+  }
+
+  .heading {
+    @extend %heading;
+    font-size: 26px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .mobile {
+    display: none;
+  }
+
+  .btn-get-started {
+    margin-left: 25px;
+  }
+
+  .jumbotron {
+    @extend %jumbotron;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    margin-bottom: 10px;
+  }
+
+  %yesno-icon {
+    font-size: 24px;
+    margin-right: 5px;
+  }
+
+  #yesPle {
+    .mega-octicon {
+      @extend %yesno-icon;
+      color: $juicy-green;
+    }
+  }
+
+  #noThan {
+    .mega-octicon {
+      @extend %yesno-icon;
+      color: $juicy-red;
+    }
+  }
+
+  #whatCanISell {
+    padding-left: 20px;
+
+    .whatCanISellFont {
+      margin-top: 20px;
+      margin-bottom: 0px;
+    }
+  }
+
+
+  .ynSecDiv {
+    padding-left: 0px;
+    padding-right: 0px;
+
+    .yesno {
+      padding-left: 30px;
+      line-height: 36px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .ynFont {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .items {
+      padding-left: 30px;
+      font-size: 14px;
+
+      .titStyl {
+        font-weight: bold;
+        margin-bottom: 0px;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      .contStyl {
+        margin-top: 3px;
+        margin-bottom: 0px;
+      }
+    }
+  }
+
+
+}
+
+@include media(">=desktop") {
+
+  // .container {
+  //   width: 1170px;
+  // }
+
+  .heading {
+    @extend %heading;
+    font-size: 33px;
+    padding-top: 20px;
+    padding-bottom: 35px;
+  }
+
+
+}
