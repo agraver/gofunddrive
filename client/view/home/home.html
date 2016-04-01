@@ -1,0 +1,42 @@
+<template name="home">
+
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row text-center">
+          <div class="col-xs-12">
+            <button type="button" class="btn btn-info">
+              <span class="mega-octicon octicon-plus"></span>
+            </button>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          {{#each drives}}
+            {{> driveLink}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<template name="driveLink">
+  <div class="col-xs-6 col-sm-4">
+    <a href={{pathFor 'drive'}}>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title text-center">
+            {{title}}
+          </h3>
+        </div>
+        <div class="panel-body">
+          <img class="img-responsive" style="margin:0 auto;" src="http://placehold.it/200x180"/>
+
+        </div>
+        <!-- <div class="panel-footer"> </div> -->
+      </div>
+    </a>
+  </div>
+</template>

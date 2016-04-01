@@ -1,5 +1,5 @@
 Template.getStarted.events({
   'click .btn': function () {
-    Router.go('/usps-label-form')
+    Router.go('drive.uspsLabelForm', {slug: Router.current().params.slug})
   }
 });
