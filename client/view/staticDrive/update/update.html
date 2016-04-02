@@ -1,0 +1,31 @@
+<template name="update">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-xs-12">
+          <h3 class="panel-title">
+            <span class="pull-left">Update #{{index}}</span>
+          </h3>
+          <span class="pull-right">{{timeAgo createdAt}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      {{{content}}}
+
+      <br>
+      <div class="row">
+        <div class="col-xs-12">
+          {{#if showMoreUpdates}}
+          {{else}}
+            <a class="showMoreUpdates" href>Show More</a>
+          {{/if}}
+
+          <div class="pull-right">
+            {{> shareit}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -2,28 +2,35 @@
   <div class="container">
     <div class="panel panel-default">
       <div class="panel-body">
-
-        <div class="row text-center">
-          {{#with drive}}
-          <h1>{{drive.title}}</h1>
-          {{/with}}
-        </div>
-
-        <div class="row">
-          <div class="col-sm-8">
-            <img class="img-responsive" src="http://placehold.it/800x400">
-            <br>
-            {{> mockUpdateOne}}
-            <br>
-            {{> campaign}}
-            {{> share}}
+        {{#with drive}}
+          <div class="row text-center">
+            <h1>{{drive.title}}</h1>
           </div>
 
-          <div class="col-sm-4">
-            {{> donateBox}}
-            {{> driveTeam}}
+          <div class="row">
+            <div class="col-sm-8">
+              <img class="img-responsive" src="http://placehold.it/800x400">
+              <br>
+              {{#if showMoreUpdates}}
+                {{#each updates}}
+                  {{> update}}
+                {{/each}}
+              {{else}}
+                {{#if latestUpdate}}
+                  {{> update latestUpdate}}
+                {{/if}}
+              {{/if}}
+              <br>
+              {{{drive.campaign}}}
+              {{> share}}
+            </div>
+
+            <div class="col-sm-4">
+              {{> donateBox}}
+              {{> driveTeam}}
+            </div>
           </div>
-        </div>
+        {{/with}}
       </div>
     </div>
 

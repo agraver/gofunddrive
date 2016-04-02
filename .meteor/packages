@@ -23,6 +23,8 @@ fourseven:scss
 seba:minifiers-autoprefixer
 lookback:body-class
 liberation:shareit
-msavin:mongol
 summernote:summernote
 djedi:sanitize-html
+babrahams:constellation
+dburles:collection-helpers
+momentjs:moment
