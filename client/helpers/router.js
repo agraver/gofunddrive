@@ -13,6 +13,13 @@ Router.map(function() {
     name: 'drive.create'
   });
 
+  this.route('/:slug/updateCampaign', {
+    name: 'drive.updateCampaign',
+    data: function() {
+      return Drives.findOne({slug: this.params.slug});
+    }
+  });
+
   this.route('usps-label-form');
   this.route('donate-info');
   this.route('summernote-test');

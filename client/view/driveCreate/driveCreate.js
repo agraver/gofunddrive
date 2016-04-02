@@ -9,6 +9,6 @@ Template.driveCreate.events({
     }
 
     drive._id = Drives.insert(drive);
-    Router.go('drive', drive);
+    Router.go('drive.updateCampaign', drive);
   }
 });
