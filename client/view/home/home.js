@@ -1,4 +1,7 @@
-Meteor.subscribe('drives');
+
+Template.home.onCreated(function() {
+    this.subscribe('drives');
+});
 
 Template.home.helpers({
   drives: function() {

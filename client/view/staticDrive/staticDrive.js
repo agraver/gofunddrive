@@ -3,8 +3,27 @@ Template.registerHelper("showMoreUpdates", function(){
 });
 
 Template.staticDrive.onCreated(function(){
+  var subHandle = this.subscribe('driveBySlug', Router.current().params.slug);
   Session.set('showMoreUpdates', false);
 });
+
+// Template.staticDrive.onRendered(function(){
+//
+//   var self = this;
+//
+//   this.autorun(function(){
+//
+//     var subHandle = self.subscribe('driveBySlug', Router.current().params.slug);
+//
+//     if(subHandle.ready()){
+//       // console.log($('.note-video-clip'));
+//       $('.note-video-clip').parent().addClass('embed-responsive embed-responsive-16by9');
+//       $('.note-video-clip').addClass('embed-responsive-item');
+//       $('img').addClass('img-responsive');
+//     }
+//   });
+//
+// });
 
 Template.staticDrive.onDestroyed(function() {
   Session.set('showMoreUpdates', false);
@@ -50,6 +69,13 @@ Template.staticDrive.helpers({
       Session.set('showMoreUpdates', true);
     }
     return latest;
+  },
+  invokeAfterLoad: function() {
+    Meteor.defer(function () {
+      $('.note-video-clip').parent().addClass('embed-responsive embed-responsive-16by9');
+      $('.note-video-clip').addClass('embed-responsive-item');
+      $('img').addClass('img-responsive');
+    });
   }
 });
 
@@ -58,3 +84,9 @@ Template.donateBox.events({
     Router.go('drive.donateInfo', {slug: Router.current().params.slug})
   }
 });
+
+Template.edit.events({
+  'click .btn': function () {
+    Router.go('drive.updateCampaign', {slug: this.slug})
+  }
+})

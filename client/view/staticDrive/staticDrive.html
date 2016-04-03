@@ -22,17 +22,32 @@
               {{/if}}
               <br>
               {{{drive.campaign}}}
+              {{invokeAfterLoad}}
               {{> share}}
             </div>
 
             <div class="col-sm-4">
               {{> donateBox}}
               {{> driveTeam}}
+              {{> edit}}
             </div>
           </div>
         {{/with}}
       </div>
     </div>
 
+  </div>
+</template>
+
+<template name="edit">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Temporary</h3>
+    </div>
+    <div class="panel-body text-center">
+      <button type="button" class="btn btn-info">
+        Edit campaign
+      </button>
+    </div>
   </div>
 </template>

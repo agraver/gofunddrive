@@ -1,3 +1,18 @@
+@import 'include-media';
+
 body.staticdrive {
   background-color: #f3f3f3;
+}
+
+@include media(">975px", "<=1185px") {
+  .note-video-clip {
+
+  }
+}
+
+@include media(">700px", "<=975px") {
+  .note-video-clip {
+
+  }
+
 }

@@ -1,8 +1,26 @@
-Template.driveUpdateCampaign.rendered = function(){
-  $(document).ready(function() {
-    $('#summernote').summernote({ airMode: false });
+Template.driveUpdateCampaign.onRendered(function(){
+  var self = this;
+
+  self.autorun(function(){
+
+    var slug = Router.current().params.slug
+    var drivesHandle = Meteor.subscribe('driveBySlug', slug);
+
+    if (drivesHandle.ready()) {
+      console.log(this._id);
+      var drive = Drives.findOne({slug: slug});
+      var campaign = drive.campaign;
+
+      $('#summernote').html(campaign);
+
+      $('#summernote').summernote({
+        airMode: false,
+        // placeholder: 'type your campaign here',
+      });
+
+    }
   });
-};
+});
 
 Template.driveUpdateCampaign.helpers({
 
