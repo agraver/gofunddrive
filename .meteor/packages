@@ -28,3 +28,13 @@ djedi:sanitize-html
 babrahams:constellation
 dburles:collection-helpers
 momentjs:moment
+peppelg:bootstrap-3-modal
+dbarrett:dropzonejs
+tomi:upload-server
+classcraft:imagemagick
+jayuda:upload-image
+lukemadera:image-picker
+
+
+npm-container
+mquandalle:bower

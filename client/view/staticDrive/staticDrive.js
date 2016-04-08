@@ -8,21 +8,11 @@ Template.staticDrive.onCreated(function(){
 });
 
 // Template.staticDrive.onRendered(function(){
-//
 //   var self = this;
-//
 //   this.autorun(function(){
-//
 //     var subHandle = self.subscribe('driveBySlug', Router.current().params.slug);
-//
-//     if(subHandle.ready()){
-//       // console.log($('.note-video-clip'));
-//       $('.note-video-clip').parent().addClass('embed-responsive embed-responsive-16by9');
-//       $('.note-video-clip').addClass('embed-responsive-item');
-//       $('img').addClass('img-responsive');
-//     }
+//     if(subHandle.ready()){}
 //   });
-//
 // });
 
 Template.staticDrive.onDestroyed(function() {
@@ -57,6 +47,9 @@ Template.staticDrive.helpers({
     return indexedNewestToOldest;
   },
   latestUpdate: function() {
+    if(this.updates===undefined){
+      return;
+    }
     var updates = this.updates;
     var newestToOldest = updates.sort(function(a,b){
       return new Date(b.createdAt) - new Date(a.createdAt);
@@ -85,8 +78,38 @@ Template.donateBox.events({
   }
 });
 
-Template.edit.events({
-  'click .btn': function () {
-    Router.go('drive.updateCampaign', {slug: this.slug})
+Template.editSave.events({
+  'click .btn-edit': function () {
+    // Router.go('drive.updateCampaign', {slug: this.slug});
+    $('.click2edit').summernote({focus: true});
+  },
+  'click .btn-save': function() {
+    var markup = $('.click2edit').summernote('code');
+    $('.click2edit').summernote('destroy');
+    $('.click2edit').html("");
+    // console.log(this._id);
+    Drives.upsert({_id: this._id},{$set:{campaign: markup}});
   }
-})
+  // 'click .btn': function () {
+  //   Router.go('drive.updateCampaign', {slug: this.slug});
+  // }
+});
+
+Template.newUpdate.events({
+  'click .btn-newUpdate': function() {
+    $('#newUpdate').summernote({focus: true, height: 300});
+  },
+  'click .btn-saveUpdate': function() {
+    var markup = $('#newUpdate').summernote('code');
+    var update = {
+      createdAt: new Date(),
+      content: markup
+    }
+    Drives.update({_id:this._id},{$push:{updates: update}});
+    $('#newUpdate').summernote('destroy');
+    $('#newUpdate').html("");
+    // remove html
+    // update reactive calculation #latestUpdate
+    // render an update
+  }
+});

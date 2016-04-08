@@ -11,6 +11,7 @@
             <div class="col-sm-8">
               <img class="img-responsive" src="http://placehold.it/800x400">
               <br>
+              <div id="newUpdate"> </div>
               {{#if showMoreUpdates}}
                 {{#each updates}}
                   {{> update}}
@@ -21,7 +22,9 @@
                 {{/if}}
               {{/if}}
               <br>
-              {{{drive.campaign}}}
+              <div class="click2edit">
+                {{{drive.campaign}}}
+              </div>
               {{invokeAfterLoad}}
               {{> share}}
             </div>
@@ -29,7 +32,8 @@
             <div class="col-sm-4">
               {{> donateBox}}
               {{> driveTeam}}
-              {{> edit}}
+              {{> editSave}}
+              {{> newUpdate}}
             </div>
           </div>
         {{/with}}
@@ -39,14 +43,33 @@
   </div>
 </template>
 
-<template name="edit">
+<template name="newUpdate">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Updates</h3>
+    </div>
+    <div class="panel-body text-center">
+      <button type="button" class="btn btn-info btn-newUpdate">
+        New update
+      </button>
+      <button type="button" class="btn btn-info btn-saveUpdate">
+        Save update
+      </button>
+    </div>
+  </div>
+</template>
+
+<template name="editSave">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">Temporary</h3>
     </div>
     <div class="panel-body text-center">
-      <button type="button" class="btn btn-info">
+      <button type="button" class="btn btn-info btn-edit">
         Edit campaign
+      </button>
+      <button type="button" class="btn btn-info btn-save">
+        Save
       </button>
     </div>
   </div>
