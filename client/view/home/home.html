@@ -1,11 +1,11 @@
 <template name="home">
 
   <div class="container">
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="max-width: 850px; margin: 0 auto;">
       <div class="panel-body">
         <div class="row text-center">
           <div class="col-xs-12">
-            <button type="button" class="btn btn-info">
+            <button type="button" class="btn btn-primary">
               <span class="mega-octicon octicon-plus"></span>
             </button>
           </div>
@@ -24,19 +24,34 @@
 
 <template name="driveLink">
   <div class="col-xs-6 col-sm-4">
-    <a href={{pathFor 'drive'}}>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title text-center">
-            {{title}}
-          </h3>
-        </div>
-        <div class="panel-body">
-          <img class="img-responsive" style="margin:0 auto;" src="http://placehold.it/200x180"/>
-
+      <div class="panel panel-default" style="max-width: 250px; margin: 0, auto;">
+        <div class="panel-body" style="padding: 8px 8px 0 8px;">
+          <a href={{pathFor 'drive'}}>
+            <img class="img-responsive" style="margin:0 auto;" src="{{thumbnailUrl}}"/>
+          </a>
+          <a href={{pathFor 'drive'}}>
+            <div class="container-fluid">
+              <div class="row text-center">
+                <h1>$102,256</h1>
+              </div>
+            </div>
+            <div class="progress" style="height: 10px; margin: 0 -8px; border-radius: 0px">
+              <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+              </div>
+            </div>
+          </a>
+          <a href={{pathFor 'drive'}}>
+            <div class="" style="line-height: 15px; padding: 10px 0;">
+              <span style="font-size: 15px; text-decoration: none; color: #000;"><strong>{{title}}</strong></span>
+            </div>
+          </a>
+            <div class="" style="line-height: 12px; padding-bottom:10px;">
+              <a href="#">
+                <span style="font-size: 12px; text-decoration: none; color: #888;">GLOUCESTER, MA</span>
+              </a>
+            </div>
         </div>
         <!-- <div class="panel-footer"> </div> -->
       </div>
-    </a>
   </div>
 </template>

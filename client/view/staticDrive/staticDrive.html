@@ -1,4 +1,8 @@
 <template name="staticDrive">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+  </head>
+
   <div class="container">
     <div class="panel panel-default">
       <div class="panel-body">
@@ -9,7 +13,12 @@
 
           <div class="row">
             <div class="col-sm-8">
-              <img class="img-responsive" src="http://placehold.it/800x400">
+              {{#if cropping}}
+                <img id="cropMainImg" class="img-responsive" src="{{drive.image.url}}">
+                {{> cropControls}}
+              {{else}}
+                <img id="mainImg" class="img-responsive" src="{{mainImgUrl}}" />
+              {{/if}}
               <br>
               <div id="newUpdate"> </div>
               {{#if showMoreUpdates}}
@@ -34,6 +43,7 @@
               {{> driveTeam}}
               {{> editSave}}
               {{> newUpdate}}
+              {{> changePic}}
             </div>
           </div>
         {{/with}}
@@ -43,16 +53,58 @@
   </div>
 </template>
 
+<template name="cropControls">
+  <div id='controls'>
+    <a href="#" id='upload_image' title='Upload image'>
+      <i class="fa fa-folder-open"></i>
+    </a>
+    <a href="#" id='rotate_left'  title='Rotate left'>
+      <i class="fa fa-rotate-left"></i>
+    </a>
+    <a href="#" id='zoom_out'     title='Zoom out'>
+      <i class="fa fa-search-minus"></i>
+    </a>
+    <a href="#" id='fit'          title='Fit image'>
+      <i class="fa fa-arrows-alt"></i>
+    </a>
+    <a href="#" id='zoom_in'      title='Zoom in'>
+      <i class="fa fa-search-plus"></i>
+    </a>
+    <a href="#" id='rotate_right' title='Rotate right'>
+      <i class="fa fa-rotate-right"></i>
+    </a>
+    <a href="#" id='save_crop'    title='Save'>
+      <i class="fa fa-save"></i>
+    </a>
+  </div>
+</template>
+
+<template name="changePic">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Main Picture</h3>
+    </div>
+    <div class="panel-body text-center">
+      <span class="file-input btn btn-primary btn-file">
+        Browse<input type="file" class="upload" name="mainImg" value="">
+      </span>
+      <button type="button" class="btn btn-primary btn-url">
+        from URL
+      </button>
+    </div>
+  </div>
+</template>
+
 <template name="newUpdate">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">Updates</h3>
     </div>
     <div class="panel-body text-center">
-      <button type="button" class="btn btn-info btn-newUpdate">
+      <button type="button" class="btn btn-primary btn-newUpdate">
         New update
       </button>
-      <button type="button" class="btn btn-info btn-saveUpdate">
+      <button type="button" class="btn btn-primary btn-saveUpdate">
         Save update
       </button>
     </div>
@@ -65,10 +117,10 @@
       <h3 class="panel-title">Temporary</h3>
     </div>
     <div class="panel-body text-center">
-      <button type="button" class="btn btn-info btn-edit">
+      <button type="button" class="btn btn-primary btn-edit">
         Edit campaign
       </button>
-      <button type="button" class="btn btn-info btn-save">
+      <button type="button" class="btn btn-primary btn-save">
         Save
       </button>
     </div>

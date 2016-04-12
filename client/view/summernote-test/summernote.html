@@ -1,2 +1,10 @@
 <template name='summernoteTest'>
+  <h3>Cloudinary Upload</h3>
+  <br/>
+  <input type="file" class="file_bag"/>
+  <h5>uploaded files</h5>
+  {{#each uploaded_images}}
+    <img src="{{c.url public_id width=250 height=250 crop='fill'}}"/>
+    <button class="delete_private">Delete</button>
+  {{/each}}
 </template>
