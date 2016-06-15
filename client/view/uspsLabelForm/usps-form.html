@@ -3,6 +3,7 @@
     <div class="panel-body">
       <h3>Payment & Return Info</h3>
       <hr>
+      <form id="uspsForm">
       <div class="row">
         <div class="col-sm-2">
         </div>
@@ -11,7 +12,7 @@
             <div class="col-xs-12">
               <div class="form-group">
                 <label for="email">Your Email</label>
-                <input type="text" class="form-control" id="email" placeholder="">
+                <input type="email" class="form-control required" id="email" name="email" placeholder="">
               </div>
             </div>
           </div>
@@ -20,14 +21,14 @@
             <div class="col-xs-6">
               <div class="form-group">
                 <label for="fname">First Name</label>
-                <input type="text" class="form-control" id="fname" placeholder="">
+                <input type="text" class="form-control required" id="fname" name="fname" placeholder="">
                 <!-- <p class="help-block">Help text here.</p> -->
               </div>
             </div>
             <div class="col-xs-6">
               <div class="form-group">
                 <label for="lname">Last Name</label>
-                <input type="text" class="form-control" id="lname" placeholder="">
+                <input type="text" class="form-control required" id="lname" name="lname" placeholder="">
                 <!-- <p class="help-block">Help text here.</p> -->
               </div>
             </div>
@@ -37,7 +38,7 @@
             <div class="col-xs-12">
               <div class="form-group">
                 <label for="streetAddr">Street address</label>
-                <input type="text" class="form-control" id="streetAddr" placeholder="">
+                <input type="text" class="form-control required" id="streetAddr" name="streetAddr" placeholder="">
                 <!-- <p class="help-block">Help text here.</p> -->
               </div>
             </div>
@@ -47,7 +48,7 @@
             <div class="col-xs-12">
               <div class="form-group">
                 <label for="aptSuite">Apt or suite (optional)</label>
-                <input type="text" class="form-control" id="aptSuite" placeholder="">
+                <input type="text" class="form-control" id="aptSuite" name="aptSuite" placeholder="">
                 <!-- <p class="help-block">Help text here.</p> -->
               </div>
             </div>
@@ -57,14 +58,14 @@
             <div class="col-xs-4">
             <div class="form-group">
               <label for="city">City</label>
-              <input type="text" class="form-control" id="city" placeholder="">
+              <input type="text" class="form-control required" id="city" name="city" placeholder="">
               <!-- <p class="help-block">Help text here.</p> -->
             </div>
             </div>
             <div class="col-xs-4">
               <div class="form-group">
                 <label for="state">State</label>
-                <select class="form-control" id="state">
+                <select class="form-control required" id="state" name="state">
             			<option value="AL">Alabama</option>
             			<option value="AK">Alaska</option>
             			<option value="AZ">Arizona</option>
@@ -122,7 +123,7 @@
             <div class="col-xs-4">
               <div class="form-group">
                 <label for="zip">Postal Code</label>
-                <input type="text" class="form-control" id="zip" placeholder="">
+                <input type="text" class="form-control required" id="zip" name="zip" placeholder="">
                 <!-- <p class="help-block">Help text here.</p> -->
               </div>
             </div>
@@ -132,7 +133,7 @@
             <div class="col-xs-6">
               <div class="form-group">
                 <label for="telnr">Phone Number</label>
-                <input type="text" class="form-control" id="telnr" placeholder="">
+                <input type="text" class="form-control" id="telnr" name="telnr" placeholder="">
               </div>
             </div>
           </div>
@@ -152,17 +153,16 @@
 
           <div class="row text-center">
             <div class="col-xs-8 col-xs-offset-2">
-              <button type="button" class="btn btn-lg btn-primary">
+              <button type="submit" class="btn btn-lg btn-primary">
                 Get my prepaid shipping label
               </button>
             </div>
           </div>
 
-
         </div>
       </div>
 
-
+    </form>
 
     </div>
   </div>
