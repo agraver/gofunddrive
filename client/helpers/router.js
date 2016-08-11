@@ -13,6 +13,24 @@ Router.map(function() {
     name: 'drive.create'
   });
 
+  this.route('labelPDF', {
+    path: 'label/:_id',
+    action: function() {
+      var label = Labels.findOne({_id: this.params._id});
+      var data = label.base64string;
+
+      var headers = {
+        'Content-type':'data:application/pdf'
+      }
+
+      this.response.writeHead(200, headers);
+      this.response.end(data);
+
+    }
+
+  });
+
+
   this.route('/:slug/updateCampaign', {
     name: 'drive.updateCampaign',
     data: function() {
@@ -49,7 +67,15 @@ Router.map(function() {
     name: 'drive.uspsLabelForm'
   });
 
+  this.route('/:slug/pack-the-box', function() {
+    this.render('packTheBox');
+  }, {
+    name: 'drive.packTheBox'
+  });
+
 });
+
+
 
 Router.onBeforeAction(function() {
   BodyClass.run();
