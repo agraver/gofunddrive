@@ -28,6 +28,7 @@ Meteor.methods({
         "MailClass": mailClass,
         "MailpieceShape": "Parcel",
         "WeightOz": weightOz,
+        "RequesterID": "test_anton",
         "CertifiedIntermediary": {
           "AccountID": "2508593",
           "PassPhrase": "CneltyN18,cdj,jlf"

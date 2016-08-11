@@ -41,6 +41,7 @@ Router.map(function() {
   this.route('usps-label-form');
   this.route('donate-info');
   this.route('summernote-test');
+  this.route('zone-not-accepted');
 
   this.route('/:slug', function(){
     var params = this.params;

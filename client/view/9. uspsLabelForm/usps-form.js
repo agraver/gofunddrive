@@ -22,13 +22,24 @@ Template.uspsForm.events({
     //TODO check that it's the allowed Zone
     Meteor.call("calculate_rates_soap", "Priority", 420, addressForm.zip, function(err, res) {
       if(res){
-        console.log(res);
+        // console.log(res);
+        var zone = res.PostageRateResponse.Zone;
+        console.log(zone);
+
+        if(!zone) {
+          // TODO possible error
+          console.log(res.PostageRateResponse.ErrorMessage);
+        }
+
+        if(parseInt(zone) <= 4) {
+          Router.go('drive.packTheBox', {slug: Router.current().params.slug});
+        } else {
+          Router.go('zone-not-accepted');
+        }
       } else {
         console.log(err);
       }
     });
-
-    // Router.go('drive.packTheBox', {slug: Router.current().params.slug})
   }
 });
 
