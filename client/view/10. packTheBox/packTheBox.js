@@ -7,7 +7,18 @@ Template.packTheBox.events({
     var target = event.target;
 
     var weightLbs = target.weightLbs.value;
+
+    if(weightLbs > 0 && weightLbs<(70/1.2)) {
+      weightLbs *= 1.2
+    } else {
+      alert('error with weightLbs');
+    }
+
     var weightOz = weightLbs * 16;
+
+
+
+
     var zip = Session.get('personalDetails').zip;
 
     var parcel = Session.get('parcel');
@@ -37,6 +48,8 @@ Template.packTheBox.events({
   }
 });
 
+
+
 Template.packTheBox.onRendered(function(){
     var instance = this;
 
@@ -56,6 +69,7 @@ Template.packTheBox.onRendered(function(){
       // console.log('parcelSelectRate: ' + parcelSelectRate);
       // console.log('priorityRate: ' + priorityRate);
 
+      var labelRequested = Session.get('labelRequested');
       var parcel = Session.get('parcel');
       var parcelSelectRate = Session.get('parcelSelectRate');
       var priorityRate = Session.get('priorityRate');
@@ -77,10 +91,12 @@ Template.packTheBox.onRendered(function(){
       }
 
       if (typeof parcel.weightOz != 'undefined' && typeof parcel.mailClass != 'undefined') {
-        console.log('got to the final step')
+        console.log('got to the final step');
         var person = Session.get('personalDetails');
-        if (typeof person != 'undefined') {
+        if (typeof person != 'undefined' && !labelRequested) {
           // Generate PDF label
+
+          Session.set('labelRequested', true);
           var params = {
             'person': person,
             'parcel': parcel
@@ -103,7 +119,7 @@ Template.packTheBox.onRendered(function(){
             Meteor.call("generate_parcel_select_label_soap", params, function(err, res) {
               if(res){
                 var pdfBase64 = res.LabelRequestResponse.Base64LabelImage;
-                window.open("data:application/pdf;base64, " + pdfBase64);
+                window.open("data:application/pdf;base64, " + pdfBase64, "_self");
               } else {
                 console.log(err);
               }

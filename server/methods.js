@@ -22,16 +22,16 @@ Meteor.methods({
     console.log(result)
   },
   calculate_priority_rates_soap: function(weightOz, fromPostalCode) {
-    var url = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";
+    var url = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var args = {
       "PostageRateRequest" : {
         "MailClass": "Priority",
         "MailpieceShape": "Parcel",
         "WeightOz": weightOz,
-        "RequesterID": "test_anton",
+        "RequesterID": "AaronRobbins",
         "CertifiedIntermediary": {
-          "AccountID": "2508593",
-          "PassPhrase": "CneltyN18,cdj,jlf"
+          "AccountID": "1128083",
+          "PassPhrase": "ANTONISANOHIK"
         },
         "FromPostalCode": fromPostalCode,
         "ToPostalCode": 22150
@@ -66,16 +66,16 @@ Meteor.methods({
     }
   },
   calculate_parcel_select_rates_soap: function(weightOz, fromPostalCode) {
-    var url = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";
+    var url = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var args = {
       "PostageRateRequest" : {
         "MailClass": "ParcelSelect",
         "MailpieceShape": "Parcel",
         "WeightOz": weightOz,
-        "RequesterID": "test_anton",
+        "RequesterID": "AaronRobbins",
         "CertifiedIntermediary": {
-          "AccountID": "2508593",
-          "PassPhrase": "CneltyN18,cdj,jlf"
+          "AccountID": "1128083",
+          "PassPhrase": "ANTONISANOHIK"
         },
         "FromPostalCode": fromPostalCode,
         "ToPostalCode": 22150
@@ -110,22 +110,22 @@ Meteor.methods({
     }
   },
   generate_priority_label_soap: function(params) {
-    var url = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";
+    var url = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var parcel = params.parcel;
     var person = params.person;
     var args = {
      "LabelRequest" : {
        attributes: {
-         "Test": "YES",
+         "Test": "NO",
          "ImageFormat": "PDF",
          "LabelSize" : "4x6"
        },
        "MailpieceShape": 'Parcel',
        "MailClass": 'Priority',
        "WeightOz": parcel.weightOz,
-       "RequesterID": "test_anton",
-       "AccountID": "2508593",
-       "PassPhrase": "CneltyN18,cdj,jlf",
+       "RequesterID": "AaronRobbins",
+       "AccountID": "1128083",
+       "PassPhrase": "ANTONISANOHIK",
        "ReplyPostage": "TRUE",
        "ShowReturnAddress": "TRUE",
        "Stealth": "TRUE",
@@ -135,7 +135,7 @@ Meteor.methods({
        "RubberStamp2": "Drive ####",
        "RubberStamp3": "www.goodsFundDriver.com",
        "PrintScanBasedPaymentLabel": "FALSE",
-       "FromCompany": "A E APPAREL",
+       "FromCompany": "R E APPAREL",
        "ReturnAddress1": "7311 Highland St",
        "ReturnAddress2": "Door 1",
        "FromCity": "Washington",
@@ -181,13 +181,13 @@ Meteor.methods({
     }
   },
   generate_parcel_select_label_soap: function(params) {
-    var url = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";
+    var url = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var parcel = params.parcel;
     var person = params.person;
     var args = {
      "LabelRequest" : {
        attributes: {
-         "Test": "YES",
+         "Test": "NO",
          "ImageFormat": "PDF",
          "LabelSize" : "4x6"
        },
@@ -196,9 +196,9 @@ Meteor.methods({
        "WeightOz": parcel.weightOz,
        "SortType": 'Nonpresorted',
        "EntryFacility": 'Other',
-       "RequesterID": "test_anton",
-       "AccountID": "2508593",
-       "PassPhrase": "CneltyN18,cdj,jlf",
+       "RequesterID": "AaronRobbins",
+       "AccountID": "1128083",
+       "PassPhrase": "ANTONISANOHIK",
        "ReplyPostage": "TRUE",
        "ShowReturnAddress": "TRUE",
        "Stealth": "TRUE",
@@ -208,7 +208,7 @@ Meteor.methods({
        "RubberStamp2": "Drive ####",
        "RubberStamp3": "www.goodsFundDriver.com",
        "PrintScanBasedPaymentLabel": "FALSE",
-       "FromCompany": "A E APPAREL",
+       "FromCompany": "R E APPAREL",
        "ReturnAddress1": "7311 Highland St",
        "ReturnAddress2": "Door 1",
        "FromCity": "Washington",
@@ -254,7 +254,7 @@ Meteor.methods({
     }
   },
   test_soap_request: function() {
-    var url = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";
+    var url = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var args = {
      "LabelRequest" : {
        attributes: {
@@ -265,16 +265,16 @@ Meteor.methods({
        "MailpieceShape": "Parcel",
        "MailClass": "Priority",
        "WeightOz": "260",
-       "RequesterID": "test_anton",
-       "AccountID": "2508593",
-       "PassPhrase": "CneltyN18,cdj,jlf",
+       "RequesterID": "AaronRobbins",
+       "AccountID": "1128083",
+       "PassPhrase": "ANTONISANOHIK",
        "ReplyPostage": "TRUE",
        "ShowReturnAddress": "TRUE",
        "Stealth": "TRUE",
        "ValidateAddress": "TRUE",
        "ContentsType": "ReturnedGoods",
        "PrintScanBasedPaymentLabel": "FALSE",
-       "FromCompany": "A E APPAREL",
+       "FromCompany": "R E APPAREL",
        "ReturnAddress1": "7311 Highland St",
        "ReturnAddress2": "Door 1",
        "FromCity": "Washington",

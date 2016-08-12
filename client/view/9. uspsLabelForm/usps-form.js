@@ -2,6 +2,7 @@ Template.uspsForm.events({
   'submit form': function(event){
     event.preventDefault();
     console.log('Form submitted, mates!');
+    Session.set('labelRequested', false);
     $('#uspsForm').find('button[type="submit"]').attr('disabled','disabled');
     var target = event.target;
 
