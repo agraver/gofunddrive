@@ -6,6 +6,13 @@ $desc-margin-left: 20px;
 $juicy-green: #76BF0D;
 $juicy-red: #F5193D;
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
 .navbar {
   background-color: white;
   box-shadow: 0 0px 4px 0px #d6d6d6;
@@ -71,7 +78,6 @@ $juicy-red: #F5193D;
 }
 
 @include media(">phone", "<=tablet") {
-
 
   #desc {
     margin-left: $desc-margin-left;
@@ -168,6 +174,12 @@ $juicy-red: #F5193D;
 }
 
 @include media(">tablet") {
+
+  .vertical-align {
+      display: flex;
+      align-items: center;
+  }
+
   h3 {
     @extend .desc-title;
     font-size: 18px;

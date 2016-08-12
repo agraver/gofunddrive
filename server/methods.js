@@ -21,11 +21,11 @@ Meteor.methods({
     console.log('hey man')
     console.log(result)
   },
-  calculate_rates_soap: function(mailClass, weightOz, fromPostalCode) {
+  calculate_priority_rates_soap: function(weightOz, fromPostalCode) {
     var url = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var args = {
       "PostageRateRequest" : {
-        "MailClass": mailClass,
+        "MailClass": "Priority",
         "MailpieceShape": "Parcel",
         "WeightOz": weightOz,
         "RequesterID": "test_anton",
@@ -64,7 +64,194 @@ Meteor.methods({
           console.log(err);
         }
     }
+  },
+  calculate_parcel_select_rates_soap: function(weightOz, fromPostalCode) {
+    var url = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";
+    var args = {
+      "PostageRateRequest" : {
+        "MailClass": "ParcelSelect",
+        "MailpieceShape": "Parcel",
+        "WeightOz": weightOz,
+        "RequesterID": "test_anton",
+        "CertifiedIntermediary": {
+          "AccountID": "2508593",
+          "PassPhrase": "CneltyN18,cdj,jlf"
+        },
+        "FromPostalCode": fromPostalCode,
+        "ToPostalCode": 22150
+      }
+    };
 
+    try {
+      var client = Soap.createClient(url);
+      var services = client.describe();
+      // console.log(services.EwsLabelService.EwsLabelServiceSoap.GetPostageLabel)
+      var result = client.CalculatePostageRate(args);
+      // console.log(result);
+      return result;
+    }
+    catch (err) {
+        if(err.error === 'soap-creation') {
+          console.log('SOAP Client creation failed');
+          return {
+            result: 'SOAP Client creation failed'
+          };
+        }
+        else if (err.error === 'soap-method') {
+          console.log(err)
+          console.log('SOAP Method call failed');
+          return {
+            result: 'SOAP Method call failed'
+          };
+        }
+        else {
+          console.log(err);
+        }
+    }
+  },
+  generate_priority_label_soap: function(params) {
+    var url = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";
+    var parcel = params.parcel;
+    var person = params.person;
+    var args = {
+     "LabelRequest" : {
+       attributes: {
+         "Test": "YES",
+         "ImageFormat": "PDF",
+         "LabelSize" : "4x6"
+       },
+       "MailpieceShape": 'Parcel',
+       "MailClass": 'Priority',
+       "WeightOz": parcel.weightOz,
+       "RequesterID": "test_anton",
+       "AccountID": "2508593",
+       "PassPhrase": "CneltyN18,cdj,jlf",
+       "ReplyPostage": "TRUE",
+       "ShowReturnAddress": "TRUE",
+       "Stealth": "TRUE",
+       "ValidateAddress": "TRUE",
+       "ContentsType": "ReturnedGoods",
+       "RubberStamp1": "Drive Name",
+       "RubberStamp2": "Drive ####",
+       "RubberStamp3": "www.goodsFundDriver.com",
+       "PrintScanBasedPaymentLabel": "FALSE",
+       "FromCompany": "A E APPAREL",
+       "ReturnAddress1": "7311 Highland St",
+       "ReturnAddress2": "Door 1",
+       "FromCity": "Washington",
+       "FromState": "VA",
+       "FromPostalCode": "22150",
+       "ToName": person.fname + " " + person.lname,
+       "ToAddress1": person.streetAddr,
+       "ToAddress2": person.aptSuite,
+       "ToCity": person.city,
+       "ToState": person.state,
+       "ToPostalCode": person.zip,
+       "ToPhone": person.telnr,
+       "PartnerCustomerID": '?',
+       "PartnerTransactionID": '?'
+    }
+  };
+
+    try {
+      var client = Soap.createClient(url);
+      var services = client.describe();
+      // console.log(services.EwsLabelService.EwsLabelServiceSoap.GetPostageLabel)
+      var result = client.GetPostageLabel(args);
+      // console.log(result);
+      return result
+    }
+    catch (err) {
+        if(err.error === 'soap-creation') {
+          console.log('SOAP Client creation failed');
+          return {
+            result: 'SOAP Client creation failed'
+          };
+        }
+        else if (err.error === 'soap-method') {
+          console.log(err)
+          console.log('SOAP Method call failed');
+          return {
+            result: 'SOAP Method call failed'
+          };
+        }
+        else {
+          console.log(err);
+        }
+    }
+  },
+  generate_parcel_select_label_soap: function(params) {
+    var url = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";
+    var parcel = params.parcel;
+    var person = params.person;
+    var args = {
+     "LabelRequest" : {
+       attributes: {
+         "Test": "YES",
+         "ImageFormat": "PDF",
+         "LabelSize" : "4x6"
+       },
+       "MailpieceShape": 'Parcel',
+       "MailClass": 'ParcelSelect',
+       "WeightOz": parcel.weightOz,
+       "SortType": 'Nonpresorted',
+       "EntryFacility": 'Other',
+       "RequesterID": "test_anton",
+       "AccountID": "2508593",
+       "PassPhrase": "CneltyN18,cdj,jlf",
+       "ReplyPostage": "TRUE",
+       "ShowReturnAddress": "TRUE",
+       "Stealth": "TRUE",
+       "ValidateAddress": "TRUE",
+       "ContentsType": "ReturnedGoods",
+       "RubberStamp1": "Drive Name",
+       "RubberStamp2": "Drive ####",
+       "RubberStamp3": "www.goodsFundDriver.com",
+       "PrintScanBasedPaymentLabel": "FALSE",
+       "FromCompany": "A E APPAREL",
+       "ReturnAddress1": "7311 Highland St",
+       "ReturnAddress2": "Door 1",
+       "FromCity": "Washington",
+       "FromState": "VA",
+       "FromPostalCode": "22150",
+       "ToName": person.fname + " " + person.lname,
+       "ToAddress1": person.streetAddr,
+       "ToAddress2": person.aptSuite,
+       "ToCity": person.city,
+       "ToState": person.state,
+       "ToPostalCode": person.zip,
+       "ToPhone": person.telnr,
+       "PartnerCustomerID": '?',
+       "PartnerTransactionID": '?'
+    }
+  };
+
+    try {
+      var client = Soap.createClient(url);
+      var services = client.describe();
+      // console.log(services.EwsLabelService.EwsLabelServiceSoap.GetPostageLabel)
+      var result = client.GetPostageLabel(args);
+      // console.log(result);
+      return result
+    }
+    catch (err) {
+        if(err.error === 'soap-creation') {
+          console.log('SOAP Client creation failed');
+          return {
+            result: 'SOAP Client creation failed'
+          };
+        }
+        else if (err.error === 'soap-method') {
+          console.log(err)
+          console.log('SOAP Method call failed');
+          return {
+            result: 'SOAP Method call failed'
+          };
+        }
+        else {
+          console.log(err);
+        }
+    }
   },
   test_soap_request: function() {
     var url = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";

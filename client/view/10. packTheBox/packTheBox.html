@@ -1,6 +1,50 @@
-
 <template name='packTheBox'>
-  <div class="">
-    <h1> ok, quick. Find a box! </h1>      
+  <div class="container">
+    <!-- TODO Owl Carousel for the process or something similar -->
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form id="boxWeightForm">
+          <div class="row">
+            <div class="col-sm-1 col-md-2"></div>
+            <div class="col-sm-10 col-md-8">
+              <div class="row text-center">
+                <h3><b>Please indicate the weight of the box and confirm the dimensions</b></h3>
+                <hr>
+                <div class="col-md-4 col-sm-4 col-sm-offset-0 col-xs-8 col-xs-offset-2">
+                  <h4>Approximate weight</h4>
+                  <img style="margin-bottom: 10px; margin:0 auto;" class="img-responsive" src="https://cdn0.iconfinder.com/data/icons/logistics-delivery-set-3-1/512/5-512.png" />
+                  <h5>Max. allowed 70 lbs</h5>
+                  <div class="input-group">
+                    <input style="height:60px; font-size:25px;" type="number" min="5" max="70" class="form-control text-right" id="weightLbs" name="weightLbs">
+                    <div class="input-group-addon">lbs</div>
+                  </div>
+                  <label id="weightLbs-error" class="error" for="weightLbs"></label>
+                </div>
+                <div class="col-md-8 col-sm-8 col-sm-offset-0 col-xs-8 col-xs-offset-2">
+                  <h4>Measure the size of your package</h4>
+                  <img class="img-responsive" src="https://s-media-cache-ak0.pinimg.com/736x/27/96/dd/2796ddcab2755fd4272b05eb4832720c.jpg" />
+                  <p style="margin-top: 10px;">Combine length (longest measurement) and girth (measure around the middle)</p>
+                </div>
+              </div>
+              <div class="row text-center">
+                <div class="col-xs-12">
+                  <div class="checkbox">
+                    <label style="font-size: 15px; margin-bottom: 10px;"><input type="checkbox" value="" id="confirmDimensions" name="confirmDimensions">I confirm that length + girth is less than 108″ and weight does not exceed 70lbs.</label>
+                  </div>
+                </div>
+                <div class="col-xs-12">
+                  <button type="submit" class="btn btn-lg btn-primary">
+                    Get my prepaid shipping label
+                  </button>
+                </div>
+                <div class="col-xs-12">
+                  <label id="confirmDimensions-error" class="error" for="confirmDimensions"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>

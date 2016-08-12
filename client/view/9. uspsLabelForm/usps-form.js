@@ -2,7 +2,7 @@ Template.uspsForm.events({
   'submit form': function(event){
     event.preventDefault();
     console.log('Form submitted, mates!');
-
+    $('#uspsForm').find('button[type="submit"]').attr('disabled','disabled');
     var target = event.target;
 
     var addressForm = {
@@ -19,15 +19,15 @@ Template.uspsForm.events({
 
     Session.set('personalDetails', addressForm);
 
-    //TODO check that it's the allowed Zone
-    Meteor.call("calculate_rates_soap", "Priority", 420, addressForm.zip, function(err, res) {
+    //check that the address is in the allowed Zone
+    Meteor.call("calculate_priority_rates_soap", 420, addressForm.zip, function(err, res) {
       if(res){
         // console.log(res);
         var zone = res.PostageRateResponse.Zone;
         console.log(zone);
 
         if(!zone) {
-          // TODO possible error
+          // TODO possible error, atm silent log
           console.log(res.PostageRateResponse.ErrorMessage);
         }
 
