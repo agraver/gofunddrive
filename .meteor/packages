@@ -16,7 +16,17 @@ es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 insecure                # Allow all DB writes from clients (for prototyping)
-iron:router
+t3db0t:accounts-invite
+iron:controller@1.0.8
+iron:core@1.0.11
+iron:dynamic-template@1.0.8
+iron:layout@1.0.8
+iron:location@1.0.9
+iron:middleware-stack@1.1.0
+iron:router@1.0.13
+iron:url@1.0.11
+accounts-facebook
+accounts-password
 twbs:bootstrap
 keiths:octicons
 fourseven:scss
@@ -35,3 +45,5 @@ classcraft:imagemagick
 lepozepo:cloudinary
 themeteorchef:jquery-validation
 zardak:soap
+ian:accounts-ui-bootstrap-3
+t3db0t:invites
