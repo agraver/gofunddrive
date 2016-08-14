@@ -1,5 +1,17 @@
 var uploadSync = Meteor.wrapAsync(Cloudinary.uploader.upload);
 
+// Production
+// var labelServerUrl = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
+// var requesterId = "AaronRobbins";
+// var accountId = "1128083";
+// var passPhrase = "ANTONISANOHIK";
+
+// Test environment
+var labelServerUrl = "https://elstestserver.endicia.com/LabelService/EwsLabelService.asmx?WSDL";
+var requesterId = "test_anton";
+var accountId = "2508593";
+var passPhrase = "CneltyN18,cdj,jlf";
+
 // send an image URL to Cloudinary and get a URL in return
 var uploadImageFromURL = function (imageUrl, drive_id) {
   try {
@@ -22,16 +34,15 @@ Meteor.methods({
     console.log(result)
   },
   calculate_priority_rates_soap: function(weightOz, fromPostalCode) {
-    var url = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var args = {
       "PostageRateRequest" : {
         "MailClass": "Priority",
         "MailpieceShape": "Parcel",
         "WeightOz": weightOz,
-        "RequesterID": "AaronRobbins",
+        "RequesterID": requesterId,
         "CertifiedIntermediary": {
-          "AccountID": "1128083",
-          "PassPhrase": "ANTONISANOHIK"
+          "AccountID": accountId,
+          "PassPhrase": passPhrase
         },
         "FromPostalCode": fromPostalCode,
         "ToPostalCode": 22150
@@ -39,7 +50,7 @@ Meteor.methods({
     };
 
     try {
-      var client = Soap.createClient(url);
+      var client = Soap.createClient(labelServerUrl);
       var services = client.describe();
       // console.log(services.EwsLabelService.EwsLabelServiceSoap.GetPostageLabel)
       var result = client.CalculatePostageRate(args);
@@ -66,16 +77,15 @@ Meteor.methods({
     }
   },
   calculate_parcel_select_rates_soap: function(weightOz, fromPostalCode) {
-    var url = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var args = {
       "PostageRateRequest" : {
         "MailClass": "ParcelSelect",
         "MailpieceShape": "Parcel",
         "WeightOz": weightOz,
-        "RequesterID": "AaronRobbins",
+        "RequesterID": requesterId,
         "CertifiedIntermediary": {
-          "AccountID": "1128083",
-          "PassPhrase": "ANTONISANOHIK"
+          "AccountID": accountId,
+          "PassPhrase": passPhrase
         },
         "FromPostalCode": fromPostalCode,
         "ToPostalCode": 22150
@@ -83,7 +93,7 @@ Meteor.methods({
     };
 
     try {
-      var client = Soap.createClient(url);
+      var client = Soap.createClient(labelServerUrl);
       var services = client.describe();
       // console.log(services.EwsLabelService.EwsLabelServiceSoap.GetPostageLabel)
       var result = client.CalculatePostageRate(args);
@@ -110,22 +120,21 @@ Meteor.methods({
     }
   },
   generate_priority_label_soap: function(params) {
-    var url = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var parcel = params.parcel;
     var person = params.person;
     var args = {
      "LabelRequest" : {
        attributes: {
-         "Test": "NO",
+         "Test": "YES",
          "ImageFormat": "PDF",
          "LabelSize" : "4x6"
        },
        "MailpieceShape": 'Parcel',
        "MailClass": 'Priority',
        "WeightOz": parcel.weightOz,
-       "RequesterID": "AaronRobbins",
-       "AccountID": "1128083",
-       "PassPhrase": "ANTONISANOHIK",
+       "RequesterID": requesterId,
+       "AccountID": accountId,
+       "PassPhrase": passPhrase,
        "ReplyPostage": "TRUE",
        "ShowReturnAddress": "TRUE",
        "Stealth": "TRUE",
@@ -154,7 +163,7 @@ Meteor.methods({
   };
 
     try {
-      var client = Soap.createClient(url);
+      var client = Soap.createClient(labelServerUrl);
       var services = client.describe();
       // console.log(services.EwsLabelService.EwsLabelServiceSoap.GetPostageLabel)
       var result = client.GetPostageLabel(args);
@@ -181,13 +190,12 @@ Meteor.methods({
     }
   },
   generate_parcel_select_label_soap: function(params) {
-    var url = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var parcel = params.parcel;
     var person = params.person;
     var args = {
      "LabelRequest" : {
        attributes: {
-         "Test": "NO",
+         "Test": "YES",
          "ImageFormat": "PDF",
          "LabelSize" : "4x6"
        },
@@ -196,9 +204,9 @@ Meteor.methods({
        "WeightOz": parcel.weightOz,
        "SortType": 'Nonpresorted',
        "EntryFacility": 'Other',
-       "RequesterID": "AaronRobbins",
-       "AccountID": "1128083",
-       "PassPhrase": "ANTONISANOHIK",
+       "RequesterID": requesterId,
+       "AccountID": accountId,
+       "PassPhrase": passPhrase,
        "ReplyPostage": "TRUE",
        "ShowReturnAddress": "TRUE",
        "Stealth": "TRUE",
@@ -227,7 +235,7 @@ Meteor.methods({
   };
 
     try {
-      var client = Soap.createClient(url);
+      var client = Soap.createClient(labelServerUrl);
       var services = client.describe();
       // console.log(services.EwsLabelService.EwsLabelServiceSoap.GetPostageLabel)
       var result = client.GetPostageLabel(args);
@@ -254,7 +262,6 @@ Meteor.methods({
     }
   },
   test_soap_request: function() {
-    var url = "https://LabelServer.Endicia.com/LabelService/EwsLabelService.asmx?WSDL";
     var args = {
      "LabelRequest" : {
        attributes: {
@@ -265,9 +272,9 @@ Meteor.methods({
        "MailpieceShape": "Parcel",
        "MailClass": "Priority",
        "WeightOz": "260",
-       "RequesterID": "AaronRobbins",
-       "AccountID": "1128083",
-       "PassPhrase": "ANTONISANOHIK",
+       "RequesterID": requesterId,
+       "AccountID": accountId,
+       "PassPhrase": passPhrase,
        "ReplyPostage": "TRUE",
        "ShowReturnAddress": "TRUE",
        "Stealth": "TRUE",
@@ -293,7 +300,7 @@ Meteor.methods({
   };
 
     try {
-      var client = Soap.createClient(url);
+      var client = Soap.createClient(labelServerUrl);
       var services = client.describe();
       // console.log(services.EwsLabelService.EwsLabelServiceSoap.GetPostageLabel)
       var result = client.GetPostageLabel(args);
