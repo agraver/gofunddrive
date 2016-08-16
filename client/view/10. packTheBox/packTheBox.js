@@ -1,30 +1,51 @@
 Template.packTheBox.events({
   'submit form': function(event){
     event.preventDefault();
-    console.log('Weight form submitted, mates!');
+
+
+    // Disable the form submit button
     $('#boxWeightForm').find('button[type="submit"]').attr('disabled','disabled');
 
+
+
+    // extract parcel weight from the form
     var target = event.target;
-
     var weightLbs = target.weightLbs.value;
+    // add 20% weight just in case
 
-    if(weightLbs > 0 && weightLbs<(70/1.2)) {
-      weightLbs *= 1.2
-    } else {
-      alert('error with weightLbs');
+    function increaseWeight(multiplier, weight) {
+      const maxWeight = 70;
+      const minWeight = 0;
+      if(weight > minWeight && weight<(maxWeight/multiplier)) {
+        return weight * multiplier;
+      } else if (weight >= (maxWeight/multiplier) && weight <= maxWeight) {
+        return maxWeight;
+      } else if (weight > maxWeight || weight <= minWeight) {
+        alert('invalid weightLbs values');
+        return;
+      }
     }
 
+
+    // transform weight units from lbs to oz
     var weightOz = weightLbs * 16;
-
-
+    var increasedWeightOz = increaseWeight(1.2, weightLbs) * 16;
+    var parcel = Session.get('parcel');
+    parcel.weightOz = increasedWeightOz;
+    Session.set('parcel', parcel);
 
 
     var zip = Session.get('personalDetails').zip;
-
-    var parcel = Session.get('parcel');
-    parcel.weightOz = weightOz;
-    Session.set('parcel', parcel);
-
+    Meteor.call('calculate_priority_rates_soap', increasedWeightOz, zip, function(err, res) {
+      if(res){
+        // console.log(res);
+        var rate = res.PostageRateResponse.Postage[0].Rate;
+        Session.set('increasedPriorityRate', rate);
+      } else {
+        console.log(err);
+      }
+    });
+    // calculate how much would the package cost without the additional 20%
     Meteor.call('calculate_priority_rates_soap', weightOz, zip, function(err, res) {
       if(res){
         // console.log(res);
@@ -35,15 +56,27 @@ Template.packTheBox.events({
       }
     });
 
-    Meteor.call('calculate_parcel_select_rates_soap', weightOz, zip, function(err, res) {
-      if(res){
-        // console.log(res);
-        var rate = res.PostageRateResponse.Postage[0].Rate;
-        Session.set('parcelSelectRate', rate);
-      } else {
-        console.log(err);
-      }
-    });
+
+    // Request Label
+    var person = Session.get('personalDetails');
+    var labelRequested = Session.get('labelRequested');
+
+    if (typeof person != 'undefined' && !labelRequested) {
+      var params = {
+        'person': person,
+        'parcel': parcel
+      };
+      Meteor.call("generate_priority_label_soap", params, function(err, res) {
+        if(res){
+          console.log(res);
+          var pdfBase64 = res.LabelRequestResponse.Base64LabelImage;
+          window.open("data:application/pdf;base64, " + pdfBase64);
+        } else {
+          console.log(err);
+        }
+      });
+      Session.set('labelRequested', true);
+    }
 
   }
 });
@@ -58,76 +91,20 @@ Template.packTheBox.onRendered(function(){
       var parcel = {
         'mailpieceShape': 'Parcel',
         'weightOz' : undefined,
-        'mailClass' : undefined
+        'mailClass' : 'Priority'
       }
       Session.set('parcel', parcel);
     }
 
     instance.autorun(function() {
+      var increasedPriorityRate = parseFloat(Session.get('increasedPriorityRate'));
+      var priorityRate = parseFloat(Session.get('priorityRate'));
 
-      // console.log('autorun triggered')
-      // console.log('parcelSelectRate: ' + parcelSelectRate);
-      // console.log('priorityRate: ' + priorityRate);
-
-      var labelRequested = Session.get('labelRequested');
-      var parcel = Session.get('parcel');
-      var parcelSelectRate = Session.get('parcelSelectRate');
-      var priorityRate = Session.get('priorityRate');
-
-      if (typeof parcelSelectRate != 'undefined' && typeof priorityRate != 'undefined') {
-        console.log('we have both rates now!')
-        var mailClass;
-        if(typeof parcel.mailClass == 'undefined') {
-          if(parcelSelectRate < priorityRate) {
-            console.log('parcelSelect is cheaper! cost: ' + parcelSelectRate + ' (vs PriorityRate ' + priorityRate+ ')');
-            mailClass = 'ParcelSelect';
-          } else {
-            console.log('choosing Priority! cost: ' + priorityRate + ' (vs ParcelSelect ' + parcelSelectRate + ')');
-            mailClass = 'Priority';
-          }
-          parcel.mailClass = mailClass;
-          Session.set('parcel', parcel);
-        }
+      if (increasedPriorityRate && priorityRate) {
+        var increasedCost = increasedPriorityRate - priorityRate;
+        Session.set('increasedCost', increasedCost);
       }
 
-      if (typeof parcel.weightOz != 'undefined' && typeof parcel.mailClass != 'undefined') {
-        console.log('got to the final step');
-        var person = Session.get('personalDetails');
-        if (typeof person != 'undefined' && !labelRequested) {
-          // Generate PDF label
-
-          Session.set('labelRequested', true);
-          var params = {
-            'person': person,
-            'parcel': parcel
-          };
-
-          console.log(params);
-
-          // TODO check if PDF has already been generated
-          if (params.parcel.mailClass == 'Priority') {
-            Meteor.call("generate_priority_label_soap", params, function(err, res) {
-              if(res){
-                console.log(res);
-                var pdfBase64 = res.LabelRequestResponse.Base64LabelImage;
-                window.open("data:application/pdf;base64, " + pdfBase64);
-              } else {
-                console.log(err);
-              }
-            });
-          } else {
-            Meteor.call("generate_parcel_select_label_soap", params, function(err, res) {
-              if(res){
-                var pdfBase64 = res.LabelRequestResponse.Base64LabelImage;
-                window.open("data:application/pdf;base64, " + pdfBase64, "_self");
-              } else {
-                console.log(err);
-              }
-            });
-          }
-
-        }
-      }
     });
 
     $('#boxWeightForm').validate({
