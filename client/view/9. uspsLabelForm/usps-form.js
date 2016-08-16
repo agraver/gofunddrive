@@ -25,17 +25,18 @@ Template.uspsForm.events({
       if(res){
         // console.log(res);
         var zone = res.PostageRateResponse.Zone;
-        console.log(zone);
+        // console.log(zone);
 
         if(!zone) {
           // TODO possible error, atm silent log
-          console.log(res.PostageRateResponse.ErrorMessage);
+          alert(res.PostageRateResponse.ErrorMessage);
         }
 
         if(parseInt(zone) <= 4) {
-          Router.go('drive.packTheBox', {slug: Router.current().params.slug});
+          Session.set('zoneAllowed', true);
         } else {
-          Router.go('zone-not-accepted');
+          // Router.go('zone-not-accepted');
+          alert('zone too far away from warehouse')
         }
       } else {
         console.log(err);
@@ -51,7 +52,47 @@ Template.uspsForm.onCreated(function(){
 
 Template.uspsForm.onRendered(function(){
     console.log("The 'uspsForm' template was just rendered.");
+    var instance = this;
     $('#uspsForm').validate();
+
+    this.autorun(function(){
+      var personalDetails = Session.get('personalDetails');
+      var zoneAllowed = Session.get('zoneAllowed');
+      var pickupLocationValid = Session.get('pickupLocationValid');
+
+      if (personalDetails && zoneAllowed) {
+        console.log('here mate');
+        var params = {person: personalDetails};
+        Meteor.call('check_pickup_availability_soap', params, function(err, res){
+          if (res){
+            // TODO result/error code cases
+            console.log(res);
+            var response = res.PackagePickupAvailabilityResponse;
+            var status = response.Status;
+
+            if(status != 0) {
+              $('#uspsForm').find('button[type="submit"]').removeAttr('disabled');
+            }
+
+            if(status == 0) {
+              //success
+              var packagePickup = response.PackagePickup;
+              Session.set('packagePickup', packagePickup);
+              Session.set('pickupLocationValid', true);
+            } else if(status == 16000) {
+              var errorMessage = res.PackagePickupAvailabilityResponse.ErrorMessage;
+              alert(errorMessage);
+            }
+          } else {
+            console.log(err);
+          }
+        });
+      }
+
+      if (pickupLocationValid) {
+        Router.go('drive.packTheBox', {slug: Router.current().params.slug});
+      }
+    });
 });
 
 Template.uspsForm.onDestroyed(function(){
