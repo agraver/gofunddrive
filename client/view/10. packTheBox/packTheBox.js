@@ -35,8 +35,8 @@ Template.packTheBox.events({
     Session.set('parcel', parcel);
 
 
-    var zip = Session.get('personalDetails').zip;
-    Meteor.call('calculate_priority_rates_soap', increasedWeightOz, zip, function(err, res) {
+    var zip5 = Session.get('personalDetails').zip5;
+    Meteor.call('calculate_priority_rates_soap', increasedWeightOz, zip5, function(err, res) {
       if(res){
         // console.log(res);
         var rate = res.PostageRateResponse.Postage[0].Rate;
@@ -46,7 +46,7 @@ Template.packTheBox.events({
       }
     });
     // calculate how much would the package cost without the additional 20%
-    Meteor.call('calculate_priority_rates_soap', weightOz, zip, function(err, res) {
+    Meteor.call('calculate_priority_rates_soap', weightOz, zip5, function(err, res) {
       if(res){
         // console.log(res);
         var rate = res.PostageRateResponse.Postage[0].Rate;

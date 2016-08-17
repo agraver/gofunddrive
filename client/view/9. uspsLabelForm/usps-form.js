@@ -11,8 +11,24 @@ Template.uspsForm.events({
     var target = event.target;
     // console.log(target);
 
-    var schedulePickup = target.freePickup.checked;
-    console.log(schedulePickup);
+    var deliveryOption = target.deliveryOptions.value;
+    Session.set('deliveryOption', deliveryOption);
+
+    var zip = target.zip.value;
+    var zipRegex = /^([0-9]{5})(?:[-\s]*([0-9]{4}))?$/;
+    var match = zipRegex.exec(zip);
+    var zip5, zip4;
+    if (match) {
+      var zip5 = match[1];
+      var zip4 = match[2];
+      if ('undefined' == typeof zip4) {
+        zip4 = "";
+      }
+    } else {
+      // TODO prevent calculation methods
+      alert("invlaid zip");
+    }
+
 
     var addressForm = {
       'email' : target.email.value,
@@ -22,14 +38,15 @@ Template.uspsForm.events({
       'aptSuite' : target.aptSuite.value,
       'city' : target.city.value,
       'state' : target.state.value,
-      'zip' : target.zip.value,
+      'zip5' : zip5,
+      'zip4' : zip4,
       'telnr' : target.telnr.value
     }
-    Session.set('personalDetails', undefined)
+    Session.set('personalDetails', undefined); //unset
     Session.set('personalDetails', addressForm);
 
     //check that the address is in the allowed Zone
-    Meteor.call("calculate_priority_rates_soap", 420, addressForm.zip, function(err, res) {
+    Meteor.call("calculate_priority_rates_soap", 420, addressForm.zip5, function(err, res) {
       if(res){
         // console.log(res);
         var zone = res.PostageRateResponse.Zone;
@@ -61,14 +78,26 @@ Template.uspsForm.onCreated(function(){
 Template.uspsForm.onRendered(function(){
     console.log("The 'uspsForm' template was just rendered.");
     var instance = this;
-    $('#uspsForm').validate();
+
+    $.validator.addMethod('zipRegex', function (value) {
+    return /^([0-9]{5})(?:[-\s]*([0-9]{4}))?$/.test(value);
+}, 'invalid US postal code.');
+
+    $('#uspsForm').validate({
+      rules: {
+        zip: {
+          zipRegex: true
+        }
+      }
+    });
 
     this.autorun(function(){
+      var deliveryOption = Session.get('deliveryOption');
       var personalDetails = Session.get('personalDetails');
       var zoneAllowed = Session.get('zoneAllowed');
       var pickupLocationValid = Session.get('pickupLocationValid');
 
-      if ("undefined" != typeof personalDetails && zoneAllowed) {
+      if ("undefined" != typeof personalDetails && zoneAllowed && deliveryOption == 'freePickup') {
         console.log('here mate');
         var params = {person: personalDetails};
         Meteor.call('check_pickup_availability_soap', params, function(err, res){
@@ -82,8 +111,7 @@ Template.uspsForm.onRendered(function(){
               $('#uspsForm').find('button[type="submit"]').removeAttr('disabled');
             }
 
-            if(status == 0) {
-              //success
+            if(status == 0) { //success
               var packagePickup = response.PackagePickup;
               Session.set('packagePickup', packagePickup);
               Session.set('pickupLocationValid', true);
@@ -111,7 +139,7 @@ Template.uspsForm.onRendered(function(){
         });
       }
 
-      if (pickupLocationValid) {
+      if (pickupLocationValid || (zoneAllowed && deliveryOption == "deliverYourself") ) {
         Router.go('drive.packTheBox', {slug: Router.current().params.slug});
       }
     });

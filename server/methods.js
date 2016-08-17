@@ -51,7 +51,8 @@ Meteor.methods({
           "SuiteOrApt": person.aptSuite,
           "City": person.city,
           "State": person.state,
-          "Zip5": person.zip
+          "Zip5": person.zip5,
+          "Zip4": person.zip4
         }
       }
     };
@@ -162,7 +163,7 @@ Meteor.methods({
        "ToAddress2": person.aptSuite,
        "ToCity": person.city,
        "ToState": person.state,
-       "ToPostalCode": person.zip,
+       "ToPostalCode": person.zip5,
        "ToPhone": person.telnr,
        "PartnerCustomerID": '?',
        "PartnerTransactionID": '?'
