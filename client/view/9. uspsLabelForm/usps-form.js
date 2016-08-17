@@ -1,3 +1,7 @@
+// Template.registerHelper("displayError", function(errMsg) {
+//
+// });
+
 Template.uspsForm.events({
   'submit form': function(event){
     event.preventDefault();
@@ -5,6 +9,10 @@ Template.uspsForm.events({
     Session.set('labelRequested', false);
     $('#uspsForm').find('button[type="submit"]').attr('disabled','disabled');
     var target = event.target;
+    // console.log(target);
+
+    var schedulePickup = target.freePickup.checked;
+    console.log(schedulePickup);
 
     var addressForm = {
       'email' : target.email.value,
@@ -17,7 +25,7 @@ Template.uspsForm.events({
       'zip' : target.zip.value,
       'telnr' : target.telnr.value
     }
-
+    Session.set('personalDetails', undefined)
     Session.set('personalDetails', addressForm);
 
     //check that the address is in the allowed Zone
@@ -60,7 +68,7 @@ Template.uspsForm.onRendered(function(){
       var zoneAllowed = Session.get('zoneAllowed');
       var pickupLocationValid = Session.get('pickupLocationValid');
 
-      if (personalDetails && zoneAllowed) {
+      if ("undefined" != typeof personalDetails && zoneAllowed) {
         console.log('here mate');
         var params = {person: personalDetails};
         Meteor.call('check_pickup_availability_soap', params, function(err, res){
@@ -79,10 +87,24 @@ Template.uspsForm.onRendered(function(){
               var packagePickup = response.PackagePickup;
               Session.set('packagePickup', packagePickup);
               Session.set('pickupLocationValid', true);
-            } else if(status == 16000) {
+            } else if(status == 16000) { // Address supplied is not specific, please provide more information.
               var errorMessage = res.PackagePickupAvailabilityResponse.ErrorMessage;
-              alert(errorMessage);
+              if(errorMessage.search("serverError = 1007") != -1){
+                var shortErrorMessage = "An invalid address was entered. Please verify address, including apartment, suite, etc.";
+                var helpMessage = "Please visit <a href='https://tools.usps.com/go/ScheduleAPickupAction!input.action'>USPS website</a> to verify pickup availability for your address";
+                displayError(shortErrorMessage);
+                displayHelp(helpMessage);
+                // or https://tools.usps.com/go/POLocatorAction to find a Post Office near you.
+              } else if (errorMessage.search("Address Not Found") != -1) {
+                var shortErrorMessage = "Address was not found";
+                var helpMessage = "Please visit <a href='https://smartystreets.com/demo'>SmartyStreets</a> to verify that your address is correct";
+                displayError(shortErrorMessage);
+                displayHelp(helpMessage);
+              } else {
+                displayError(errorMessage);
+              }
             }
+
           } else {
             console.log(err);
           }

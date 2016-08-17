@@ -1,0 +1,19 @@
+.Name & Return Address -> weight/ dimensions -> print label -> schedule pickup.
+
+Requirements:
+collection with userID to save personal details,
+PDF and scheduled pickups numbers
+(w/ ability to change them later).
+
+radio input:
+
+1. "Request free pickup from this address"
+2. "I will drop off the package at the PO myself"
+
+We would like to know the pickup address first.
+According to it we calculate if it's located in the allowed zone.
+
+What if address on the label and the pickup address are different?
+I.e. location from where it's picked up doesn't match the price of the printed label.
+
+What happens if the return address is invalid (is not supported for pickup), but the person agrees to bring it to post office himself?

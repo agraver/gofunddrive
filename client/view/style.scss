@@ -13,6 +13,12 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 .navbar {
   background-color: white;
   box-shadow: 0 0px 4px 0px #d6d6d6;

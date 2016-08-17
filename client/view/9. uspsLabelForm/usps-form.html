@@ -1,7 +1,7 @@
 <template name="uspsForm">
   <div class="panel panel-default">
     <div class="panel-body">
-      <h3>Name & Pickup location</h3>
+      <h3>Name & Return Address</h3>
       <hr>
       <form id="uspsForm">
       <div class="row">
@@ -139,6 +139,16 @@
           </div>
 
           <div class="row">
+            <div class="col-xs-6">
+                <div style="font-size: 14px;" class="form-group">
+                  <label style="margin-left: 0px;" for="freePickup">
+                    <input type="checkbox" value="" id="freePickup" name="freePickup" checked> Schedule a free pickup
+                  </label>
+                </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 20px;">
             <div class="col-xs-12">
               <p>
                 Valets do their best to sell your items. We'll return any unsold items to you for free. <br>
@@ -149,6 +159,25 @@
                 <br>
               </p>
             </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-xs-12">
+              <div class="alert alert-danger fade in hidden">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span class="errorMessage"></span>
+              </div>
+            </div>
+            
+            <div class="col-xs-12">
+              <div class="alert alert-info fade in hidden">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span class="helpMessage"></span>
+              </div>
+            </div>
+
+
           </div>
 
           <div class="row text-center">
