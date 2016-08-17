@@ -42,6 +42,7 @@ Router.map(function() {
   this.route('donate-info');
   this.route('summernote-test');
   this.route('zone-not-accepted');
+  this.route('applyForBeta');
 
   this.route('/:slug', function(){
     var params = this.params;
@@ -73,6 +74,7 @@ Router.map(function() {
   }, {
     name: 'drive.packTheBox'
   });
+
 
 });
 

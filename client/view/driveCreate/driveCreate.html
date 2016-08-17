@@ -1,11 +1,14 @@
 <template name="driveCreate">
-
   <div class="container">
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="row">
           <div class="col-sm-6 col-sm-offset-3">
-            {{> newDriveForm}}
+            {{#if currentUser }}
+              {{> newDriveForm}}
+            {{else}}
+              <h1>Allowed only for registered users</h1>
+            {{/if}}
           </div>
         </div>
       </div>

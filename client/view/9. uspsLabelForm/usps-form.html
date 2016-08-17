@@ -1,6 +1,7 @@
 <template name="uspsForm">
   <div class="panel panel-default">
     <div class="panel-body">
+      {{#if currentUser }}
       <h3>Name & Return Address</h3>
       <hr>
       <form id="uspsForm">
@@ -199,6 +200,10 @@
 
     </form>
 
+    {{else}}
+    <h2 class="text-center">Form available only for registered users</h2>
+    {{/if}}
     </div>
+
   </div>
 </template>

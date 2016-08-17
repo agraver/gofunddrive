@@ -41,9 +41,11 @@
             <div class="col-sm-4">
               {{> donateBox}}
               {{> driveTeam}}
-              {{> editSave}}
-              {{> newUpdate}}
-              {{> changePic}}
+              {{#if currentUser }}
+                {{> editSave}}
+                {{> newUpdate}}
+                {{> changePic}}
+              {{/if}}
             </div>
           </div>
         {{/with}}

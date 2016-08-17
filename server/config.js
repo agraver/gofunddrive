@@ -26,6 +26,18 @@ Cloudinary.rules.download_url = function() {
   return true;
 };
 
+Invites.config({
+  from: "GoodsFundDriver Beta <beta@goodsfunddriver.com>",
+  inviteRequest: {
+    subject: "GoodsFundDriver Beta invitation",
+    body: "Thanks for your interest in GoodsFundDrive! We'll let you know when you've been invited."
+  },
+  invite: {
+    subject: "Welcome to GoodsFundDriver",
+    body: "Thanks for your interest in GoodsFundDriver!"
+  }
+});
+
 AccountsInvite.register({
 	validateToken: validateToken,
 	onCreatedAccount: onCreatedAccount
