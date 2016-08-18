@@ -83,6 +83,15 @@ Router.map(function() {
 
 });
 
+var goToDashboard = function(pause) {
+  if (Meteor.user()) {
+    Router.go('home');
+  } else {
+    this.next();
+  }
+};
+
+Router.onBeforeAction(goToDashboard, {only: ['inviteValid']});
 
 
 Router.onBeforeAction(function() {

@@ -3,13 +3,15 @@ Template.applyForBeta.events({
     event.preventDefault();
     var target = event.target;
     var email = target.email.value;
-    console.log(email);
+    // console.log(email);
     Meteor.call("invitesRequest", email, true, function(err, res) {
       if (res) {
-        alert('Request has been successful!')
+        console.log(res);
       } else {
         console.log(err);
       }
     });
+    alert('Invitation Request successful');
+    Router.go('/');
   }
 });
