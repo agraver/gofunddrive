@@ -1,3 +1,14 @@
+Meteor.startup(function () {
+  smtp = {
+    username: 'anton@britishdeluxe.ee',   // eg: server@gentlenode.com
+    password: 'AssisT565',   // eg: 3eeP1gtizk5eziohfervU
+    server:   'smtp.britishdeluxe.ee',  // eg: mail.gandi.net
+    port: 587
+  }
+
+  process.env.MAIL_URL = 'smtp://' + encodeURIComponent(smtp.username) + ':' + encodeURIComponent(smtp.password) + '@' + encodeURIComponent(smtp.server) + ':' + smtp.port;
+});
+
 Cloudinary.config({
   cloud_name: 'gofunddrive',
   api_key: '997982172839677',
@@ -38,11 +49,6 @@ Invites.config({
   }
 });
 
-AccountsInvite.register({
-	validateToken: validateToken,
-	onCreatedAccount: onCreatedAccount
-});
-
 function validateToken(token){
 	if(InvitesCollection.findOne({"token":token})) return true;
 	else return false;
@@ -51,3 +57,8 @@ function validateToken(token){
 function onCreatedAccount(token){
 	InvitesCollection.update({"token":token}, {$set:{"status":"claimed"}});
 }
+
+AccountsInvite.register({
+  validateToken: validateToken,
+  onCreatedAccount: onCreatedAccount
+});

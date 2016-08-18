@@ -1,0 +1,85 @@
+<template name='schedulePickup'>
+    <div class="container">
+        <!-- TODO Owl Carousel for the process or something similar -->
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3>Pickup details</h3>
+                <hr>
+                <form id="schedulePickupForm">
+                    <div class="row">
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h4>Pickup date: {{pickupDate}} ({{pickupDayOfWeek}})</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 col-offset-3">
+                                    <div class="form-group">
+                                        <label for="packageLocation">Package Location</label>
+                                        <select class="form-control required" id="packageLocation" name="packageLocation">
+                                            <option value="Front Door">Front Door</option>
+                                            <option value="Back Door">Back Door</option>
+                                            <option value="Side Door">Side Door</option>
+                                            <option value="Knock on Door/Ring Bell">Knock on Door/Ring Bell</option>
+                                            <option value="Mail Room">Mail Room</option>
+                                            <option value="Office">Office</option>
+                                            <option value="Reception">Reception</option>
+                                            <option value="In/At Mailbox">In/At Mailbox</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label for="specialInstructions">Special Instructions</label>
+                                        <input type="text" class="form-control" id="specialInstructions" name="specialInstructions" placeholder="i.e. Door Code">
+                                        <!-- <p class="help-block">Help text here.</p> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <button type="submit" class="btn btn-lg btn-primary">
+                                        Confirm Pickup
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="finalResponse" class="panel panel-default hidden">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-8">
+                      <div class="row" style="margin: 10 0;">
+                        <div class="col-xs-12">
+                          <big>Pickup scheduled successfuly!</big>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-12">
+                          Pickup date: {{pickupDate}} ({{pickupDayOfWeek}})
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-12">
+                          Confirmation number: {{confirmationNumber}}
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</template>

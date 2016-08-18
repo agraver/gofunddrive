@@ -76,6 +76,7 @@ Template.packTheBox.events({
         }
       });
       Session.set('labelRequested', true);
+      Router.go('drive.schedulePickup', {slug: Router.current().params.slug});
     }
 
   }

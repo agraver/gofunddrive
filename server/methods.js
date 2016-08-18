@@ -84,6 +84,79 @@ Meteor.methods({
         }
     }
   },
+  schedule_pickup_soap: function(params) {
+    var person = params.person;
+    var parcel = params.parcel;
+
+    console.log(person);
+    console.log(parcel);
+
+    if (typeof parcel.specialInstructions == 'undefined') {
+      parcel.specialInstructions = "";
+    }
+    if (typeof person.zip4 == 'undefined') {
+      person.zip4 = "";
+    }
+    if (typeof person.aptSuite == 'undefined') {
+      person.aptSuite = "";
+    }
+    var args = {
+      "PackagePickupRequest" : {
+        "RequesterID": requesterId,
+        "RequestID": "Pickup Request",
+        "CertifiedIntermediary": {
+          "AccountID": accountId,
+          "PassPhrase": passPhrase
+        },
+        "UseAddressOnFile": "NO",
+        "PhysicalPickupAddress": {
+          "FirstName": person.fname,
+          "LastName": person.lname,
+          "Address": person.streetAddr,
+          "SuiteOrApt": person.aptSuite,
+          "City": person.city,
+          "State": person.state,
+          "Zip5": person.zip5,
+          "Zip4": person.zip4,
+          "Phone": person.telnr,
+          "CostCenter": "",
+
+        },
+        "PriorityMailCount": 1,
+        "EstimatedWeightLb": parseFloat('' + parcel.weightOz / 16),
+        "PackageLocation": parcel.packageLocation,
+        "SpecialInstructions": parcel.specialInstructions
+      }
+    };
+    console.log(args);
+
+    try {
+      var client = Soap.createClient(labelServerUrl);
+      var services = client.describe();
+      // console.log(services.EwsLabelService.EwsLabelServiceSoap.GetPackagePickup)
+      var result = client.GetPackagePickup(args);
+      // console.log(result);
+      return result;
+    }
+    catch (err) {
+        if(err.error === 'soap-creation') {
+          console.log('SOAP Client creation failed');
+          return {
+            result: 'SOAP Client creation failed'
+          };
+        }
+        else if (err.error === 'soap-method') {
+          console.log(err)
+          console.log('SOAP Method call failed');
+          return {
+            result: 'SOAP Method call failed'
+          };
+        }
+        else {
+          console.log(err);
+        }
+    }
+  },
   calculate_priority_rates_soap: function(weightOz, fromPostalCode) {
     var args = {
       "PostageRateRequest" : {

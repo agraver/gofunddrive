@@ -75,6 +75,11 @@ Router.map(function() {
     name: 'drive.packTheBox'
   });
 
+  this.route('/:slug/schedule-pickup', function() {
+    this.render('schedulePickup');
+  }, {
+    name: 'drive.schedulePickup'
+  });
 
 });
 
