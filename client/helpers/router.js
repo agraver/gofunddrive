@@ -14,10 +14,11 @@ Router.map(function() {
   });
 
   this.route('labelPDF', {
-    path: 'label/:_id',
+    path: '/label/:_id',
+    where: 'server',
     action: function() {
       var label = Labels.findOne({_id: this.params._id});
-      var data = label.base64string;
+      var data = label.pdfBase64;
 
       var headers = {
         'Content-type':'data:application/pdf'

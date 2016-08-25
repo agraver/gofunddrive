@@ -1,15 +1,18 @@
 <template name="header">
-  <div class="navbar navbar-default" role="navigation">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="{{pathFor route='home'}}">GoodsFundDriver</a>
-    </div>
-    <div class="navbar-collapse collapse">
-      <!-- <ul class="nav navbar-nav">
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{pathFor route='home'}}">GoodsFundDriver</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <!-- <ul class="nav navbar-nav">
         <li class="active"><a href="#">Link</a></li>
       </ul> -->
-      <ul class="nav navbar-nav navbar-right">
-        {{> loginButtons }} <!-- here -->
-      </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {{> loginButtons }}
+                    <!-- here -->
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
 </template>

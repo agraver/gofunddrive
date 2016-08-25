@@ -70,7 +70,12 @@ Template.packTheBox.events({
         if(res){
           console.log(res);
           var pdfBase64 = res.LabelRequestResponse.Base64LabelImage;
-          window.open("data:application/pdf;base64, " + pdfBase64);
+          var labelId = Labels.insert({
+            pdfBase64: pdfBase64,
+            owner: Meteor.userId()
+          });
+          Session.set('labelId', labelId);
+          // window.open("data:application/pdf;base64, " + pdfBase64);
         } else {
           console.log(err);
         }

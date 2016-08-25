@@ -206,7 +206,7 @@ Meteor.methods({
     var args = {
      "LabelRequest" : {
        attributes: {
-         "Test": "YES",
+         "Test": "NO",
          "ImageFormat": "PDF",
          "LabelSize" : "4x6"
        },

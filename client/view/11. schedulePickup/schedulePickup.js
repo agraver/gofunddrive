@@ -35,6 +35,9 @@ Template.schedulePickup.events({
 })
 
 Template.schedulePickup.helpers({
+  getLabel: function() {
+    return {"_id":Session.get('labelId')}
+  },
   pickupDayOfWeek: function() {
     if (typeof Session.get('finalResponse') == 'undefined') {
       return Session.get('packagePickup').DayOfWeek;
